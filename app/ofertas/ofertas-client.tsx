@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Percent, Clock, Tag } from "lucide-react";
 import { products, formatPrice } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
@@ -118,12 +119,12 @@ export function OfertasClient() {
         <p className="text-sm text-muted-foreground mb-4">
           Explora todo nuestro catalogo con mas de 400 productos disponibles
         </p>
-        <a
+        <Link
           href="/catalogo"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           Ver catalogo completo
-        </a>
+        </Link>
       </div>
     </div>
   );

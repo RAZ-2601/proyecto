@@ -43,7 +43,7 @@ export function PromoBanner() {
           </p>
           <Link
             href="/ofertas"
-            className="inline-flex items-center gap-2 mt-6 bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 mt-6 bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-semibold hover:opacity-90 hover:scale-105 transition-all"
           >
             Comprar ahora
           </Link>
