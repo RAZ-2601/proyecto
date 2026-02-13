@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { CartProvider } from "@/lib/cart-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { Header } from "@/components/header";
@@ -57,6 +58,7 @@ export default function RootLayout({
           </CartProvider>
         </AuthProvider>
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
