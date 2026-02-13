@@ -102,11 +102,17 @@ export function ProductsSection() {
             <ProductCard 
               key={product.id} 
               product={{
-                ...product,
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
                 image: product.image_url,
                 originalPrice: product.original_price || undefined,
+                category: product.category,
+                rating: product.rating,
                 reviews: product.reviews_count,
                 inStock: product.stock > 0,
+                badge: product.discount_percentage > 0 ? `${product.discount_percentage}% OFF` : undefined,
               }} 
             />
           ))}
