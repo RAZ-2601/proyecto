@@ -28,26 +28,26 @@ export function CategoriesSection() {
           <Link
             key={cat.id}
             href={`/catalogo?cat=${cat.slug}`}
-            className="group relative aspect-[3/4] rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+            className="group relative aspect-[3/4] rounded-xl overflow-hidden"
           >
             <Image
               src={cat.image || "/placeholder.svg"}
               alt={cat.name}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent group-hover:from-background/95 transition-all" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <div className="flex items-end justify-between">
                 <div>
-                  <h3 className="font-display text-xl md:text-2xl text-foreground tracking-wide transition-transform group-hover:translate-y-[-2px]">
+                  <h3 className="font-display text-xl md:text-2xl text-foreground tracking-wide">
                     {cat.name.toUpperCase()}
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {cat.count} productos
                   </p>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-primary" />
                 </div>
               </div>

@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag, Star, Check } from "lucide-react";
+import { ShoppingBag, Star } from "lucide-react";
 import { type Product, formatPrice } from "@/lib/data";
 import { useCart } from "@/lib/cart-context";
 
@@ -13,15 +12,6 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
-  const [added, setAdded] = useState(false);
-
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addItem(product);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
-  };
 
   return (
     <div className="group flex flex-col">
@@ -73,19 +63,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
           <button
             type="button"
-            onClick={handleAddToCart}
-            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-              added
-                ? "bg-green-600 text-white"
-                : "bg-secondary hover:bg-primary text-muted-foreground hover:text-primary-foreground"
-            }`}
+            onClick={() => addItem(product)}
+            className="w-8 h-8 rounded-lg bg-secondary hover:bg-primary text-muted-foreground hover:text-primary-foreground flex items-center justify-center transition-colors"
             aria-label={`Agregar ${product.name} al carrito`}
           >
-            {added ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <ShoppingBag className="w-4 h-4" />
-            )}
+            <ShoppingBag className="w-4 h-4" />
           </button>
         </div>
       </div>

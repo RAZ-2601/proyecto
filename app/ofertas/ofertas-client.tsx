@@ -1,52 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Percent, Clock, Tag, Loader2 } from "lucide-react";
-import { formatPrice } from "@/lib/data";
+import { Percent, Clock, Tag } from "lucide-react";
+import { products, formatPrice } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
-import { createClient } from "@/lib/supabase/client";
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  original_price: number | null;
-  category: string;
-  image_url: string;
-  rating: number;
-  reviews_count: number;
-  stock: number;
-  is_active: boolean;
-  discount_percentage: number;
-}
 
 export function OfertasClient() {
-  const [offerProducts, setOfferProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const supabase = createClient();
-
-  useEffect(() => {
-    const loadOffers = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("is_active", true)
-        .gt("discount_percentage", 0)
-        .order("discount_percentage", { ascending: false });
-
-      if (error) {
-        console.error("[v0] Error loading offers:", error);
-      } else {
-        setOfferProducts(data || []);
-      }
-      setLoading(false);
-    };
-
-    loadOffers();
-  }, [supabase]);
+  const offerProducts = products.filter((p) => p.originalPrice);
 
   return (
     <div className="px-4 py-8 max-w-7xl mx-auto">
@@ -125,34 +84,17 @@ export function OfertasClient() {
         </p>
       </div>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        </div>
-      ) : offerProducts.length > 0 ? (
+      {offerProducts.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {offerProducts.map((product) => (
             <div key={product.id} className="relative">
-              {product.discount_percentage > 0 && (
+              {product.originalPrice && (
                 <div className="absolute top-3 right-3 z-10 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-md">
-                  -{product.discount_percentage}%
+                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}
+                  %
                 </div>
               )}
-              <ProductCard 
-                product={{
-                  id: product.id,
-                  name: product.name,
-                  description: product.description,
-                  price: product.price,
-                  image: product.image_url,
-                  originalPrice: product.original_price || undefined,
-                  category: product.category,
-                  rating: product.rating,
-                  reviews: product.reviews_count,
-                  inStock: product.stock > 0,
-                  badge: `${product.discount_percentage}% OFF`,
-                }}
-              />
+              <ProductCard product={product} />
             </div>
           ))}
         </div>
@@ -176,12 +118,12 @@ export function OfertasClient() {
         <p className="text-sm text-muted-foreground mb-4">
           Explora todo nuestro catalogo con mas de 400 productos disponibles
         </p>
-        <Link
+        <a
           href="/catalogo"
           className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
         >
           Ver catalogo completo
-        </Link>
+        </a>
       </div>
     </div>
   );
