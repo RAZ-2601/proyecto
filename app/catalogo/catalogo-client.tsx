@@ -1,10 +1,26 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, SlidersHorizontal, X } from "lucide-react";
-import { products, categories, type Product } from "@/lib/data";
+import { Search, SlidersHorizontal, X, Loader2 } from "lucide-react";
+import { categories } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
+import { createClient } from "@/lib/supabase/client";
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  original_price: number | null;
+  category: string;
+  image_url: string;
+  rating: number;
+  reviews_count: number;
+  stock: number;
+  is_active: boolean;
+  discount_percentage: number;
+}
 
 type SortOption = "default" | "price-asc" | "price-desc" | "rating" | "new";
 
@@ -12,11 +28,34 @@ export function CatalogoClient() {
   const searchParams = useSearchParams();
   const initialCat = searchParams.get("cat") || "todos";
   const initialQuery = searchParams.get("q") || "";
+  const supabase = createClient();
 
   const [search, setSearch] = useState(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState(initialCat);
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const [showFilters, setShowFilters] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("[v0] Error loading products:", error);
+      } else {
+        setProducts(data || []);
+      }
+      setLoading(false);
+    };
+
+    loadProducts();
+  }, [supabase]);
 
   const filteredProducts = useMemo(() => {
     let result: Product[] = [...products];
@@ -167,10 +206,29 @@ export function CatalogoClient() {
             </p>
           </div>
 
-          {filteredProducts.length > 0 ? (
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard 
+                  key={product.id} 
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                    image: product.image_url,
+                    originalPrice: product.original_price || undefined,
+                    category: product.category,
+                    rating: product.rating,
+                    reviews: product.reviews_count,
+                    inStock: product.stock > 0,
+                    badge: product.discount_percentage > 0 ? `${product.discount_percentage}% OFF` : undefined,
+                  }}
+                />
               ))}
             </div>
           ) : (
