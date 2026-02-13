@@ -1,14 +1,18 @@
 -- Script 001: Crear tabla de usuarios con roles y perfiles
 -- Este script crea la estructura base de usuarios con roles (cliente, empleado, gerente)
 
--- Crear tipo ENUM para roles
-CREATE TYPE user_role AS ENUM ('cliente', 'empleado', 'gerente');
+-- Crear tipo ENUM para roles si no existe
+DO $$ BEGIN
+  CREATE TYPE user_role AS ENUM ('cliente', 'empleado', 'gerente');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
 
 -- Crear tabla de perfiles de usuarios
 CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL UNIQUE,
-  role user_role NOT NULL DEFAULT 'cliente',
+  role TEXT NOT NULL DEFAULT 'cliente' CHECK (role IN ('cliente', 'empleado', 'gerente')),
   first_name TEXT,
   last_name TEXT,
   phone TEXT,
