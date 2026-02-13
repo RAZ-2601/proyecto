@@ -7,6 +7,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { CartDrawer } from "@/components/cart-drawer";
 import { MobileNav } from "@/components/mobile-nav";
+import { Analytics } from "@vercel/analytics/next";
 
 import "./globals.css";
 
@@ -55,6 +56,7 @@ export default function RootLayout({
             <MobileNav />
           </CartProvider>
         </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );
