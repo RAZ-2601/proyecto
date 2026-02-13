@@ -30,22 +30,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-4 mb-6">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Volver a la tienda
-        </Link>
-        <span className="text-muted-foreground">|</span>
-        <Link
-          href="/catalogo"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          Ver catalogo
-        </Link>
-      </div>
+      <Link
+        href="/"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Volver a la tienda
+      </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Image */}

@@ -32,7 +32,7 @@ export function CartDrawer() {
         className="fixed inset-0 bg-background/60 backdrop-blur-sm z-50"
         onClick={() => setIsOpen(false)}
         onKeyDown={(e) => {
-          if (e.key === "Escape" || e.key === "Enter") setIsOpen(false);
+          if (e.key === "Escape") setIsOpen(false);
         }}
         role="button"
         tabIndex={0}

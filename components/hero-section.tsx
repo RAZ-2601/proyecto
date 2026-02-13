@@ -33,14 +33,14 @@ export function HeroSection() {
         <div className="mt-8 flex flex-col sm:flex-row gap-3">
           <Link
             href="/catalogo"
-            className="group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-all"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Ver catalogo
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             href="/ofertas"
-            className="inline-flex items-center justify-center gap-2 bg-secondary text-secondary-foreground px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-secondary/80 hover:scale-105 transition-all"
+            className="inline-flex items-center justify-center gap-2 bg-secondary text-secondary-foreground px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-secondary/80 transition-colors"
           >
             Ofertas especiales
           </Link>
